@@ -82,10 +82,10 @@ services:
       - PUID=${ID}
       - PGID=${ID}
     volumes:
-      - /home/docker/smarthome/code-server/config:/config:z
-      - /home/docker/smarthome/homeassistant/config:/config/workspace/homeassistant:z
-      - /home/docker/smarthome/mosquitto/config:/config/workspace/mosquitto:z
-      - /home/docker/smarthome/zigbe2mqtt/data:/config/workspace/zigbe2mqtt:z
+      - /home/docker/smarthome/code-server/config:/config
+      - /home/docker/smarthome/homeassistant/config:/config/workspace/homeassistant
+      - /home/docker/smarthome/mosquitto/config:/config/workspace/mosquitto
+      - /home/docker/smarthome/zigbe2mqtt/data:/config/workspace/zigbe2mqtt
     ports:
       - 8126:8443
     restart: unless-stopped
