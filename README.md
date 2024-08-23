@@ -141,9 +141,9 @@ This mosquitto.conf needs to be created manually with atleast the following Sett
 # mosquitto configuration
 
 # to run mosquitto unsecurely (without authentication) uncomment the following code block:
-#listener 1883
-#protocol mqtt
-#allow_anonymous true
+listener 1883
+protocol mqtt
+allow_anonymous true
 ```
 To get an secure connection between mosquitto to Home Assistant and Zigbee2MQTT
 you need to do the following:
