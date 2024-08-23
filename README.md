@@ -21,3 +21,13 @@ In my case it looks like that:
 ```bash
 chown -R 1000:1000 /home/docker/*
 ```
+## Which Applications I'm using on my "All-In-One-SmartHome-Docker"
+
+- HomeAssistant
+- ESPHome
+- Zigbee2MQTT
+- mosquitto
+- Code Server
+- MariaDB
+- phpMyAdmin
+
