@@ -108,7 +108,7 @@ services:
 
 ### mosquitto
 
-For mosquitto i'm using the Docker Image from [Zigbee2MQTT](https://www.zigbee2mqtt.io/guide/installation/02_docker.html#rootless-container)
+For mosquitto i'm using the Docker Image from [Eclipse Mosquitto](https://hub.docker.com/_/eclipse-mosquitto)
 
 ```yaml
 ---
@@ -132,6 +132,26 @@ services:
     environment:
       - PUID=${ID}
       - PGID=${ID}
+```
+For mosquitto there is an config-File needed mosquitto.conf which needs to be placed
+on the '/mosquitto/config' directory.
+
+This mosquitto.conf needs to be created manually with atleast the following Settings:
+```console
+# mosquitto configuration
+
+# to run mosquitto unsecurely (without authentication) uncomment the following code block:
+#listener 1883
+#protocol mqtt
+#allow_anonymous true
+```
+To get an secure connection between mosquitto to Home Assistant and Zigbee2MQTT
+you need to do the following:
+
+```console
+to run mosquitto securely (with authentication) - RECOMMENDED - uncomment the following code block:
+run touch '/config/passwd' then 'mosquitto_passwd /config/passwd <user>' within the container to generate the password file and add a user
+https://github.com/cmccambridge/mosquitto-unraid/blob/master/README.md#Authentication
 ```
 
 ### code-server
