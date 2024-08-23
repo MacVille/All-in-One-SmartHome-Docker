@@ -139,6 +139,9 @@ on the '/mosquitto/config' directory.
 This mosquitto.conf needs to be created manually with atleast the following Settings:
 ```console
 # mosquitto configuration
+persistence true
+persistence_location /mosquitto/data/
+log_dest file /mosquitto/log/mosquitto.log
 
 # to run mosquitto unsecurely (without authentication) uncomment the following code block:
 listener 1883
@@ -153,6 +156,15 @@ to run mosquitto securely (with authentication) - RECOMMENDED - uncomment the fo
 run touch '/config/passwd' then 'mosquitto_passwd /config/passwd <user>' within the container to generate the password file and add a user
 https://github.com/cmccambridge/mosquitto-unraid/blob/master/README.md#Authentication
 ```
+Which will result into the following mosquitto.config File
+
+listener 1883
+protocol mqtt
+password_file /mosquitto/config/passwd
+
+persistence true
+persistence_location /mosquitto/data/
+log_dest file /mosquitto/log/mosquitto.log
 
 ### code-server
 
