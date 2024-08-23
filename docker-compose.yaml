@@ -106,3 +106,19 @@ services:
     ports:
       - 3306:3306
     restart: unless-stopped
+  phpmyadmin:
+    image: lscr.io/linuxserver/phpmyadmin:latest
+    container_name: phpmyadmin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIME_ZONE}
+      - PMA_HOST=192.168.178.147
+      - PMA_PORT=3306
+      #- PMA_ARBITRARY=1 #optional
+      #- PMA_ABSOLUTE_URI=https://phpmyadmin.example.com #optional
+    volumes:
+      - /home/docker/smarthome/phpmyadmin/config:/config
+    ports:
+      - 8127:80
+    restart: unless-stopped
