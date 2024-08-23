@@ -158,6 +158,7 @@ https://github.com/cmccambridge/mosquitto-unraid/blob/master/README.md#Authentic
 ```
 Which will result into the following mosquitto.config File
 
+```console
 listener 1883
 protocol mqtt
 password_file /mosquitto/config/passwd
@@ -165,6 +166,7 @@ password_file /mosquitto/config/passwd
 persistence true
 persistence_location /mosquitto/data/
 log_dest file /mosquitto/log/mosquitto.log
+```
 
 ### code-server
 
