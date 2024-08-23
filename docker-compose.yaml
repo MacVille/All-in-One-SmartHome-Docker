@@ -95,7 +95,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=${TIME_ZONE}
       - MYSQL_ROOT_PASSWORD=${ROOT_ACCESS_PASSWORD}
       - MYSQL_DATABASE=${USER_DB_NAME}
       - MYSQL_USER=${MYSQL_USER}
