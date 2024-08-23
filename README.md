@@ -31,3 +31,26 @@ chown -R 1000:1000 /home/docker/*
 - MariaDB
 - phpMyAdmin
 
+### Home Assistant
+
+For Home Assistant i'm using the Docker Image from [LinuxServer.io](https://docs.linuxserver.io/images/docker-homeassistant/)
+
+```yaml
+---
+services:
+  homeassistant:
+    image: lscr.io/linuxserver/homeassistant:latest
+    container_name: homeassistant
+    network_mode: bridge
+    environment:
+      - TZ=${TIME_ZONE}
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /home/docker/smarthome/homeassistant/config:/config
+    ports:
+      - '8123:8123'
+    #devices:
+    #  - /path/to/device:/path/to/device #optional
+    restart: unless-stopped
+```

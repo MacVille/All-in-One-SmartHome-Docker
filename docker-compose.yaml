@@ -6,8 +6,8 @@ services:
     network_mode: bridge
     environment:
       - TZ=${TIME_ZONE}
-      - PUID=1000
-      - PGID=1000
+      - PUID=${ID}
+      - PGID=${ID}
     volumes:
       - /home/docker/smarthome/homeassistant/config:/config
     ports:
@@ -29,8 +29,8 @@ services:
     environment:
       #- USERNAME=test
       #- PASSWORD=ChangeMe
-      - PUID=1000
-      - PGID=1000
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TIME_ZONE}
   zigbee2mqtt:
     container_name: zigbee2mqtt
@@ -44,8 +44,8 @@ services:
       - '8125:8080'
     environment:
       - TZ=${TIME_ZONE}
-      - PUID=1000
-      - PGID=1000
+      - PUID=${ID}
+      - PGID=${ID}
     #devices:
       #Make sure this matched your adapter location
       #- /dev/serial/by-id/usb-Texas_Instruments_TI_CC2531_USB_CDC___0X00124B0018ED3DDF-if00:/dev/ttyACM0
@@ -66,8 +66,8 @@ services:
     tty: true
     stdin_open: true
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${ID}
+      - PGID=${ID}
   code-server:
     image: lscr.io/linuxserver/code-server:latest
     container_name: code-server
@@ -79,8 +79,8 @@ services:
       #- SUDO_PASSWORD_HASH= #optional
       #- PROXY_DOMAIN=code-server.my.domain #optional
       - DEFAULT_WORKSPACE=/config/workspace #optional
-      - PUID=1000
-      - PGID=1000
+      - PUID=${ID}
+      - PGID=${ID}
     volumes:
       - /home/docker/smarthome/code-server/config:/config:z
       - /home/docker/smarthome/homeassistant/config:/config/workspace/homeassistant:z
@@ -93,8 +93,8 @@ services:
     image: lscr.io/linuxserver/mariadb:latest
     container_name: mariadb
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TIME_ZONE}
       - MYSQL_ROOT_PASSWORD=${ROOT_ACCESS_PASSWORD}
       - MYSQL_DATABASE=${USER_DB_NAME}
@@ -110,8 +110,8 @@ services:
     image: lscr.io/linuxserver/phpmyadmin:latest
     container_name: phpmyadmin
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${ID}
+      - PGID=${ID}
       - TZ=${TIME_ZONE}
       - PMA_HOST=192.168.178.147
       - PMA_PORT=3306
