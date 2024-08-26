@@ -7,7 +7,7 @@ services:
     environment:
       - TZ=${TIME_ZONE}
       - PUID=${ID}
-      - PGID=${ID}
+      - PGID=${PGID}
     volumes:
       - /home/docker/smarthome/homeassistant/config:/config
     ports:
@@ -30,7 +30,7 @@ services:
       #- USERNAME=test
       #- PASSWORD=ChangeMe
       - PUID=${ID}
-      - PGID=${ID}
+      - PGID=${PGID}
       - TZ=${TIME_ZONE}
   zigbee2mqtt:
     container_name: zigbee2mqtt
@@ -45,7 +45,7 @@ services:
     environment:
       - TZ=${TIME_ZONE}
       - PUID=${ID}
-      - PGID=${ID}
+      - PGID=${PGID}
     #devices:
       #Make sure this matched your adapter location
       #- /dev/serial/by-id/usb-Texas_Instruments_TI_CC2531_USB_CDC___0X00124B0018ED3DDF-if00:/dev/ttyACM0
@@ -67,7 +67,7 @@ services:
     stdin_open: true
     environment:
       - PUID=${ID}
-      - PGID=${ID}
+      - PGID=${PGID}
   code-server:
     image: lscr.io/linuxserver/code-server:latest
     container_name: code-server
@@ -80,7 +80,7 @@ services:
       #- PROXY_DOMAIN=code-server.my.domain #optional
       - DEFAULT_WORKSPACE=/config/workspace #optional
       - PUID=${ID}
-      - PGID=${ID}
+      - PGID=${PGID}
     volumes:
       - /home/docker/smarthome/code-server/config:/config
       - /home/docker/smarthome/homeassistant/config:/config/workspace/homeassistant
@@ -94,7 +94,7 @@ services:
     container_name: mariadb
     environment:
       - PUID=${ID}
-      - PGID=${ID}
+      - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - MYSQL_ROOT_PASSWORD=${ROOT_ACCESS_PASSWORD}
       - MYSQL_DATABASE=${USER_DB_NAME}
@@ -111,9 +111,9 @@ services:
     container_name: phpmyadmin
     environment:
       - PUID=${ID}
-      - PGID=${ID}
+      - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - PMA_HOST=192.168.178.147
+      - PMA_HOST=mariadb
       - PMA_PORT=3306
       #- PMA_ARBITRARY=1 #optional
       #- PMA_ABSOLUTE_URI=https://phpmyadmin.example.com #optional
