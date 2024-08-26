@@ -1,4 +1,4 @@
-# All-in-One-SmartHome-Docker
+# All-in-One-SmartHome-Docker-Stack
 
 ## Requirements
 On your Docker Host you need to create an Group and User with the PUID and PGID 1000
