@@ -86,6 +86,7 @@ services:
       - /home/docker/smarthome/homeassistant/config:/config/workspace/homeassistant
       - /home/docker/smarthome/mosquitto/config:/config/workspace/mosquitto
       - /home/docker/smarthome/zigbe2mqtt/data:/config/workspace/zigbe2mqtt
+      - /home/docker/smarthome/esphome/config:/config/workspace/esphome
     ports:
       - 8126:8443
     restart: unless-stopped
