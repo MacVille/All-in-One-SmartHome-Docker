@@ -132,4 +132,6 @@ services:
     networks:
       - smarthome
 networks:
-  smarthome: {}
+  smarthome: 
+    name: smarthome
+    external: true
