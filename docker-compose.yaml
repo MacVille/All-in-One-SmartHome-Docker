@@ -16,6 +16,7 @@ services:
     restart: unless-stopped
     depends_on:
       - mariadb
+    networks: []
   esphome:
     container_name: esphome
     image: ghcr.io/esphome/esphome
@@ -72,6 +73,7 @@ services:
       - PGID=${PGID}
     networks:
       - smarthome
+    restart: unless-stopped
   code-server:
     image: lscr.io/linuxserver/code-server:latest
     container_name: code-server
@@ -130,5 +132,4 @@ services:
       - smarthome
 networks:
   smarthome:
-    name: smarthome
-    internal: true
+    external: true
