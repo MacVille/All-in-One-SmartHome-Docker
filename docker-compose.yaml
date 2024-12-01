@@ -1,4 +1,3 @@
----
 services:
   homeassistant:
     image: lscr.io/linuxserver/homeassistant:latest
@@ -11,10 +10,14 @@ services:
     volumes:
       - /home/docker/smarthome/homeassistant/config:/config
     ports:
-      - '8123:8123'
+      - 8123:8123
     #devices:
     #  - /path/to/device:/path/to/device #optional
     restart: unless-stopped
+    depends_on:
+      - mariadb
+    networks:
+      - smarthome
   esphome:
     container_name: esphome
     image: ghcr.io/esphome/esphome
@@ -25,59 +28,58 @@ services:
     restart: always
     privileged: true
     ports:
-      - '8124:6052'
+      - 8124:6052
     environment:
       #- USERNAME=test
       #- PASSWORD=ChangeMe
       - PUID=${ID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-  zigbee2mqtt:
-    container_name: zigbee2mqtt
-    image: koenkk/zigbee2mqtt
-    restart: unless-stopped
-    network_mode: bridge
-    volumes:
-      - /home/docker/smarthome/zigbe2mqtt/data:/app/data
-      - /run/udev:/run/udev:ro
-    ports:
-      - '8125:8080'
-    environment:
-      - TZ=${TIME_ZONE}
-      - PUID=${ID}
-      - PGID=${PGID}
-    #devices:
+      #zigbee2mqtt:
+      #  container_name: zigbee2mqtt
+      #  image: koenkk/zigbee2mqtt
+      #  restart: unless-stopped
+      #  network_mode: bridge
+      #  volumes:
+      #    - /home/docker/smarthome/zigbe2mqtt/data:/app/data
+      #    - /run/udev:/run/udev:ro
+      #  ports:
+      #    - 8125:8080
+      #  environment:
+      #    - TZ=${TIME_ZONE}
+      #    - PUID=${ID}
+      #    - PGID=${PGID}
+      #devices:
       #Make sure this matched your adapter location
       #- /dev/serial/by-id/usb-Texas_Instruments_TI_CC2531_USB_CDC___0X00124B0018ED3DDF-if00:/dev/ttyACM0
+    networks:
+      - smarthome
   eclipse-mosquitto:
     image: eclipse-mosquitto
     container_name: mosquitto
     volumes:
-        - /home/docker/smarthome/mosquitto/log:/mosquitto/log
-        - /home/docker/smarthome/mosquitto/data:/mosquitto/data
-        - /home/docker/smarthome/mosquitto/config:/mosquitto/config
-        #- /home/docker/smarthome/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - /home/docker/smarthome/mosquitto/log:/mosquitto/log
+      - /home/docker/smarthome/mosquitto/data:/mosquitto/data
+      - /home/docker/smarthome/mosquitto/config:/mosquitto/config
+      #- /home/docker/smarthome/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
     ports:
-      - '1883:1883'
-      - '1884:1884'
-      - '8883:8883'
-      - '8884:8884' 
-      - '9001:9001'
+      - 1883:1883
+      - 1884:1884
+      - 8883:8883
+      - 8884:8884
+      - 9001:9001
     tty: true
     stdin_open: true
     environment:
       - PUID=${ID}
       - PGID=${PGID}
+    networks:
+      - smarthome
   code-server:
     image: lscr.io/linuxserver/code-server:latest
     container_name: code-server
     environment:
       - TZ=${TIME_ZONE}
-      #- PASSWORD=password #optional
-      #- HASHED_PASSWORD= #optional
-      #- SUDO_PASSWORD=password #optional
-      #- SUDO_PASSWORD_HASH= #optional
-      #- PROXY_DOMAIN=code-server.my.domain #optional
       - DEFAULT_WORKSPACE=/config/workspace #optional
       - PUID=${ID}
       - PGID=${PGID}
@@ -90,6 +92,8 @@ services:
     ports:
       - 8126:8443
     restart: unless-stopped
+    networks:
+      - smarthome
   mariadb:
     image: lscr.io/linuxserver/mariadb:latest
     container_name: mariadb
@@ -107,6 +111,8 @@ services:
     ports:
       - 3306:3306
     restart: unless-stopped
+    networks:
+      - smarthome
   phpmyadmin:
     image: lscr.io/linuxserver/phpmyadmin:latest
     container_name: phpmyadmin
@@ -123,3 +129,7 @@ services:
     ports:
       - 8127:80
     restart: unless-stopped
+    networks:
+      - smarthome
+networks:
+  smarthome: {}
