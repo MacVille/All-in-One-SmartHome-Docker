@@ -16,8 +16,6 @@ services:
     restart: unless-stopped
     depends_on:
       - mariadb
-    networks:
-      - smarthome
   esphome:
     container_name: esphome
     image: ghcr.io/esphome/esphome
@@ -52,8 +50,7 @@ services:
       #devices:
       #Make sure this matched your adapter location
       #- /dev/serial/by-id/usb-Texas_Instruments_TI_CC2531_USB_CDC___0X00124B0018ED3DDF-if00:/dev/ttyACM0
-    networks:
-      - smarthome
+    networks: []
   eclipse-mosquitto:
     image: eclipse-mosquitto
     container_name: mosquitto
@@ -132,6 +129,6 @@ services:
     networks:
       - smarthome
 networks:
-  smarthome: 
+  smarthome:
     name: smarthome
-    external: true
+    internal: true
