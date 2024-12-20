@@ -1,10 +1,31 @@
 #!/bin/bash
 
+
+#     _____                          __   __  __                      
+#    / ___/ ____ ___   ____ _ _____ / /_ / / / /____   ____ ___   ___ 
+#    \__ \ / __ `__ \ / __ `// ___// __// /_/ // __ \ / __ `__ \ / _ \
+#   ___/ // / / / / // /_/ // /   / /_ / __  // /_/ // / / / / //  __/
+#  /____//_/ /_/ /_/ \__,_//_/    \__//_/ /_/ \____//_/ /_/ /_/ \___/ 
+#                                                                     
+#      ___     __ __        _                ____                     
+#     /   |   / // /       (_)____          / __ \ ____   ___         
+#    / /| |  / // /______ / // __ \ ______ / / / // __ \ / _ \        
+#   / ___ | / // //_____// // / / //_____// /_/ // / / //  __/        
+#  /_/  |_|/_//_/       /_//_/ /_/        \____//_/ /_/ \___/         
+#                                                                     
+
+
 # Define a default destination path
 DEFAULT_DESTINATION_PATH="/opt/stacks/SmartHome-All-in-One"  # Replace with your default destination path
 
 # Ask the user for the destination path with a default value
 read -p "Please enter the destination path for downloaded files [default: $DEFAULT_DESTINATION_PATH]: " DESTINATION_PATH
+
+# Use default destination path if the user doesn't input anything
+if [ -z "$DESTINATION_PATH" ]; then
+    DESTINATION_PATH="$DEFAULT_DESTINATION_PATH"
+    echo "Using default destination path: $DESTINATION_PATH"
+fi
 
 # Define an associative array for GitHub raw links and their desired filenames
 declare -A REPO_FILES=(
@@ -39,21 +60,31 @@ fi
 # Create the destination directory if it doesn't exist
 mkdir -p "$DESTINATION_PATH"
 
-# Loop through each entry in the associative array and download the file
+# Loop through each entry in the associative array and ask for confirmation
 for URL in "${!REPO_FILES[@]}"; do
     FILENAME="${REPO_FILES[$URL]}"  # Get the corresponding desired filename
-    echo "Downloading $URL as $FILENAME..."
-    
-    # Download the file with a progress bar
-    curl -L --progress-bar -o "$DESTINATION_PATH/$FILENAME" "$URL"
 
-    # Check if the download was successful
-    if [ $? -ne 0 ]; then
-        echo "Failed to download $URL."
+    # Ask the user for confirmation to download each file
+    read -p "Do you want to download $FILENAME from $URL? (y/n) [default: y]: " file_confirmation
+    file_confirmation=${file_confirmation:-y}
+
+    # Default to downloading if the confirmation is empty or "y"
+    if [[ "$file_confirmation" == "y" || "$file_confirmation" == "Y" || -z "$file_confirmation" ]]; then
+        echo "Downloading $URL as $FILENAME..."
+        
+        # Download the file with a progress bar
+        curl -L --progress-bar -o "$DESTINATION_PATH/$FILENAME" "$URL"
+
+        # Check if the download was successful
+        if [ $? -ne 0 ]; then
+            echo "Failed to download $URL."
+        else
+            echo "Successfully downloaded $FILENAME to $DESTINATION_PATH."
+        fi
     else
-        echo "Successfully downloaded $FILENAME to $DESTINATION_PATH."
+        echo "Skipping $FILENAME."
     fi
 done
 
-echo "Download complete."
+echo "Download process complete."
 exit 0
