@@ -1,13 +1,16 @@
 #!/bin/bash
 
-# Define variables
-DESTINATION_PATH="/opt/stacks/TEST"  # Replace with the desired destination path
+# Define a default destination path
+DEFAULT_DESTINATION_PATH="/opt/stacks/SmartHome-All-in-One"  # Replace with your default destination path
 
-# Define an array of GitHub raw links
-REPO_URLS=(
-    "https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/ha-configuration-example.yaml"  # Sample HA-Config-YAML
-    "https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/docker-compose.yaml" #Docker-Compose File for All Containers
-    "https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/.envexample" #Docker TEMPLATE .env File
+# Ask the user for the destination path with a default value
+read -p "Please enter the destination path for downloaded files [default: $DEFAULT_DESTINATION_PATH]: " DESTINATION_PATH
+
+# Define an associative array for GitHub raw links and their desired filenames
+declare -A REPO_FILES=(
+    ["https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/ha-configuration-example.yaml"]="configuration.yaml"
+    ["https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/docker-compose.yaml"]="compose.yaml"
+    ["https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/.envexample"]=".env"
 )
 
 # Function to display usage
@@ -33,19 +36,19 @@ fi
 # Create the destination directory if it doesn't exist
 mkdir -p "$DESTINATION_PATH"
 
-# Loop through each URL in the array and download the file
-for URL in "${REPO_URLS[@]}"; do
-    echo "Downloading $URL..."
-    FILE_NAME=$(basename "$URL")  # Extracting filename from the URL
-
+# Loop through each entry in the associative array and download the file
+for URL in "${!REPO_FILES[@]}"; do
+    FILENAME="${REPO_FILES[$URL]}"  # Get the corresponding desired filename
+    echo "Downloading $URL as $FILENAME..."
+    
     # Download the file with a progress bar
-    curl -L --progress-bar -o "$DESTINATION_PATH/$FILE_NAME" "$URL"
+    curl -L --progress-bar -o "$DESTINATION_PATH/$FILENAME" "$URL"
 
     # Check if the download was successful
     if [ $? -ne 0 ]; then
         echo "Failed to download $URL."
     else
-        echo "Successfully downloaded $FILE_NAME to $DESTINATION_PATH."
+        echo "Successfully downloaded $FILENAME to $DESTINATION_PATH."
     fi
 done
 
