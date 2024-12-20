@@ -22,6 +22,9 @@ function usage() {
 # Ask the user if they want to proceed with the download
 read -p "Do you want to download files from the specified GitHub raw links? (y/n): " confirmation
 
+# Use default confirmation as "y" if the user doesn't input anything
+confirmation=${confirmation:-y}
+
 if [[ "$confirmation" != "y" && "$confirmation" != "Y" ]]; then
     echo "Download canceled by the user."
     exit 0
