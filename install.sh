@@ -1,17 +1,22 @@
 #!/bin/bash
 
-echo"#     _____                          __   __  __                      "
-echo"#    / ___/ ____ ___   ____ _ _____ / /_ / / / /____   ____ ___   ___ "
-echo"#    \__ \ / __ `__ \ / __ `// ___// __// /_/ // __ \ / __ `__ \ / _ \"
-echo"#   ___/ // / / / / // /_/ // /   / /_ / __  // /_/ // / / / / //  __/"
-echo"#  /____//_/ /_/ /_/ \__,_//_/    \__//_/ /_/ \____//_/ /_/ /_/ \___/ "
-echo"#                                                                     "
-echo"#      ___     __ __        _                ____                     "
-echo"#     /   |   / // /       (_)____          / __ \ ____   ___         "
-echo"#    / /| |  / // /______ / // __ \ ______ / / / // __ \ / _ \        "
-echo"#   / ___ | / // //_____// // / / //_____// /_/ // / / //  __/        "
-echo"#  /_/  |_|/_//_/       /_//_/ /_/        \____//_/ /_/ \___/         "
-echo"#"
+echo "#########################################################################"
+echo "#     _____                          __   __  __                        #"
+echo "#    / ___/ ____ ___   ____ _ _____ / /_ / / / /____   ____ ___   ___   #"
+echo "#    \\__ \\ / __ \`__ \\ / __ \`// ___// __// /_/ // __ \\ / __ \`__ \\ / _ \\  #"
+echo "#   ___/ // / / / / // /_/ // /   / /_ / __  // /_/ // / / / / //  __/  #"
+echo "#  /____//_/ /_/ /_/ \\__,_//_/    \\__//_/ /_/ \\____//_/ /_/ /_/ \\___/   #"
+echo "#                                                                       #"
+echo "#      ___     __ __        _                ____                       #"
+echo "#     /   |   / // /       (_)____          / __ \\ ____   ___           #"
+echo "#    / /| |  / // /______ / // __ \\ ______ / / / // __ \\ / _ \\          #"
+echo "#   / ___ | / // //_____// // / / //_____// /_/ // / / //  __/          #"
+echo "#  /_/  |_|/_//_/       /_//_/ /_/        \\____//_/ /_/ \\___/           #"
+echo "#                                                                       #"
+echo "#########################################################################"
+echo ""
+echo ""
+
 
 # Define a default destination path
 DEFAULT_DESTINATION_PATH="/opt/stacks/SmartHome-All-in-One"  # Replace with your default destination path
@@ -39,7 +44,7 @@ function usage() {
 }
 
 # Ask the user if they want to proceed with the download
-read -p "Do you want to download files from the specified GitHub raw links? (y/n): " confirmation
+read -p "Do you want to download files from the specified GitHub raw links? (Y/n): " confirmation
 
 # Use default confirmation as "y" if the user doesn't input anything
 confirmation=${confirmation:-y}
@@ -70,7 +75,7 @@ for URL in "${!REPO_FILES[@]}"; do
     if [[ "$file_confirmation" == "y" || "$file_confirmation" == "Y" || -z "$file_confirmation" ]]; then
         echo "Downloading $URL as $FILENAME..."
         
-        # Download the file with a progress bar
+        # Download the file with the specified filename
         curl -L --progress-bar -o "$DESTINATION_PATH/$FILENAME" "$URL"
 
         # Check if the download was successful
@@ -80,7 +85,19 @@ for URL in "${!REPO_FILES[@]}"; do
             echo "Successfully downloaded $FILENAME to $DESTINATION_PATH."
         fi
     else
-        echo "Skipping $FILENAME."
+        # If the user chooses "n", download the file with its original filename
+        ORIGINAL_FILENAME=$(get_original_filename "$URL")
+        echo "Downloading $URL with original filename $ORIGINAL_FILENAME..."
+        
+        # Download the file with the original filename
+        curl -L --progress-bar -o "$DESTINATION_PATH/$ORIGINAL_FILENAME" "$URL"
+
+        # Check if the download was successful
+        if [ $? -ne 0 ]; then
+            echo "Failed to download $URL."
+        else
+            echo "Successfully downloaded $ORIGINAL_FILENAME to $DESTINATION_PATH."
+        fi
     fi
 done
 
