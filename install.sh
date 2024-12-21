@@ -32,10 +32,10 @@ fi
 
 # Define an associative array for GitHub raw links and their desired filenames
 declare -A REPO_FILES=(
-    ["https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/ha-configuration-example.yaml"]="configuration.yaml"
-    ["https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/.envexample"]="mosquitto.config"
-    ["https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/docker-compose.yaml"]="compose.yaml"
-    ["https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/.envexample"]=".env"
+    ["https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/smarthome/homeassistant/ha-configuration-example.yaml"]="configuration.yaml"
+    ["https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/smarthome/mosquitto/mosquitto-template.conf"]="mosquitto.config"
+    ["https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/docker/docker-compose.yaml"]="compose.yaml"
+    ["https://raw.githubusercontent.com/MacVille/All-in-One-SmartHome-Docker/refs/heads/main/docker/.envexample"]=".env"
 )
 
 # Function to display usage
