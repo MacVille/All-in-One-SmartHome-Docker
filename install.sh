@@ -102,44 +102,44 @@ if [ -f "$DESTINATION_PATH/configuration.yaml" ]; then
 fi
 
 # Modify placeholders in .env
-if [ -f "$DESTINATION_PATH/.env" ]; then
-    echo ""
-    read -r -p "Do you want to modify the placeholders in .env? (Y/n): " modify_env
-    modify_env=${modify_env:-y}
-
-    if [[ "$modify_env" == "y" || "$modify_env" == "Y" ]]; then
-        read -p "Enter the value for TIME_ZONE: " TIMEZONE
-        read -p "Enter the value for ROOT_ACCESS_PASSWORD: " ROOTACCESSPASSWORD
-        read -p "Enter the value for USER_DB_NAME: " USERDBNAME
-        read -p "Enter the value for MYSQL_USER: " MYSQLUSER
-        read -p "Enter the value for DATABASE_PASSWORD: " MYSQLUSERPASSWORD
-        read -p "Enter the value for PUID: " PUIDENTRY
-        read -p "Enter the value for PGID: " PGIDENTRY
-
-        # Escape Sonderzeichen in den Variablen
-        ESCAPED_TIMEZONE=$(printf '%s' "$TIMEZONE" | sed 's/[\/&]/\\&/g')
-        ESCAPED_ROOTACCESSPASSWORD=$(printf '%s' "$ROOTACCESSPASSWORD" | sed 's/[\/&]/\\&/g')
-        ESCAPED_USERDBNAME=$(printf '%s' "$USERDBNAME" | sed 's/[\/&]/\\&/g')
-        ESCAPED_MYSQLUSER=$(printf '%s' "$MYSQLUSER" | sed 's/[\/&]/\\&/g')
-        ESCAPED_MYSQLUSERPASSWORD=$(printf '%s' "$MYSQLUSERPASSWORD" | sed 's/[\/&]/\\&/g')
-        ESCAPED_PUIDENTRY=$(printf '%s' "$PUIDENTRY" | sed 's/[\/&]/\\&/g')
-        ESCAPED_PGIDENTRY=$(printf '%s' "$PGIDENTRY" | sed 's/[\/&]/\\&/g')
-
-        sed -i \
-            -e "s/TIME_ZONE/$ESCAPED_TIMEZONE/g" \
-            -e "s/ROOT_ACCESS_PASSWORD/$ESCAPED_ROOTACCESSPASSWORD/g" \
-            -e "s/USER_DB_NAME/$ESCAPED_USERDBNAME/g" \
-            -e "s/MYSQL_USER/$ESCAPED_MYSQLUSER/g" \
-            -e "s/DATABASE_PASSWORD/$ESCAPED_MYSQLUSERPASSWORD/g" \
-            -e "s/PUID/$ESCAPED_PUIDENTRY/g" \
-            -e "s/PGID/$ESCAPED_PGIDENTRY/g" \
-            "$DESTINATION_PATH/.env"
-
-        echo "Placeholders in .env have been updated."
-    else
-        echo "Skipping placeholder modifications for .env."
-    fi
-fi
+#if [ -f "$DESTINATION_PATH/.env" ]; then
+#    echo ""
+#    read -r -p "Do you want to modify the placeholders in .env? (Y/n): " modify_env
+#    modify_env=${modify_env:-y}
+#
+#    if [[ "$modify_env" == "y" || "$modify_env" == "Y" ]]; then
+#        read -p "Enter the value for TIME_ZONE: " TIMEZONE
+#        read -p "Enter the value for ROOT_ACCESS_PASSWORD: " ROOTACCESSPASSWORD
+#        read -p "Enter the value for USER_DB_NAME: " USERDBNAME
+#        read -p "Enter the value for MYSQL_USER: " MYSQLUSER
+#        read -p "Enter the value for DATABASE_PASSWORD: " MYSQLUSERPASSWORD
+#        read -p "Enter the value for PUID: " PUIDENTRY
+#        read -p "Enter the value for PGID: " PGIDENTRY
+#
+#        # Escape Sonderzeichen in den Variablen
+#        ESCAPED_TIMEZONE=$(printf '%s' "$TIMEZONE" | sed 's/[\/&]/\\&/g')
+#        ESCAPED_ROOTACCESSPASSWORD=$(printf '%s' "$ROOTACCESSPASSWORD" | sed 's/[\/&]/\\&/g')
+#        ESCAPED_USERDBNAME=$(printf '%s' "$USERDBNAME" | sed 's/[\/&]/\\&/g')
+#        ESCAPED_MYSQLUSER=$(printf '%s' "$MYSQLUSER" | sed 's/[\/&]/\\&/g')
+#        ESCAPED_MYSQLUSERPASSWORD=$(printf '%s' "$MYSQLUSERPASSWORD" | sed 's/[\/&]/\\&/g')
+#        ESCAPED_PUIDENTRY=$(printf '%s' "$PUIDENTRY" | sed 's/[\/&]/\\&/g')
+#        ESCAPED_PGIDENTRY=$(printf '%s' "$PGIDENTRY" | sed 's/[\/&]/\\&/g')
+#
+#        sed -i \
+#            -e "s/TIMEZONE/$ESCAPED_TIMEZONE/g" \
+#            -e "s/ROOTACCESSPASSWORD/$ESCAPED_ROOTACCESSPASSWORD/g" \
+#            -e "s/USERDBNAME/$ESCAPED_USERDBNAME/g" \
+#            -e "s/MYSQLUSER/$ESCAPED_MYSQLUSER/g" \
+#            -e "s/MYSQLUSERPASSWORD/$ESCAPED_MYSQLUSERPASSWORD/g" \
+#            -e "s/PUIDENTRY/$ESCAPED_PUIDENTRY/g" \
+#            -e "s/PGIDENTRY/$ESCAPED_PGIDENTRY/g" \
+#            "$DESTINATION_PATH/.env"
+#
+#        echo "Placeholders in .env have been updated."
+#    else
+#        echo "Skipping placeholder modifications for .env."
+#    fi
+#fi
 
 echo ""
 echo "Download and modification process complete."
