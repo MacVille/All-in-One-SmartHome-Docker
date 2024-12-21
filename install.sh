@@ -89,7 +89,7 @@ if [ -f "$DESTINATION_PATH/configuration.yaml" ]; then
         read -p "Enter database name: " DATABASENAME
 
         sed -i \
-            -e "s/DBUSERNAEM/$DBUSER/g" \
+            -e "s/DBUSERNAME/$DBUSER/g" \
             -e "s/DBUSERPASSWORD/$DBPASSWORD/g" \
             -e "s/MYSQLSERVER/$MYSQLSERVER/g" \
             -e "s/DATABASENAME/$DATABASENAME/g" \
@@ -108,12 +108,23 @@ if [ -f "$DESTINATION_PATH/.env" ]; then
     modify_env=${modify_env:-y}
 
     if [[ "$modify_env" == "y" || "$modify_env" == "Y" ]]; then
-        read -p "Enter the value for VARIABLE1: " VAR1
-        read -p "Enter the value for VARIABLE2: " VAR2
+        read -p "Enter the value for TIME_ZONE: " TIMEZONE
+        read -p "Enter the value for ROOT_ACCESS_PASSWORD: " ROOTACCESSPASSWORD
+        read -p "Enter the value for USER_DB_NAME: " USERDBNAME
+        read -p "Enter the value for MYSQL_USER: " MYSQLUSER
+        read -p "Enter the value for DATABASE_PASSWORD: " MYSQLUSERPASSWORD
+        read -p "Enter the value for PUID: " PUID
+        read -p "Enter the value for PGID: " PGID
 
         sed -i \
-            -e "s/PLACEHOLDER1/$VAR1/g" \
-            -e "s/PLACEHOLDER2/$VAR2/g" \
+            -e "s/TIME_ZONE/$TIMEZONE/g" \
+            -e "s/ROOT_ACCESS_PASSWORD/$ROOTACCESSPASSWORD/g" \
+            -e "s/USER_DB_NAME/$USERDBNAME/g" \
+            -e "s/MYSQL_USER/$MYSQLUSER/g" \
+            -e "s/DATABASE_PASSWORD/$MYSQLUSERPASSWORD/g" \
+            -e "s/PUID/$PUID/g" \
+            -e "s/PGID/$PGID/g" \
+
             "$DESTINATION_PATH/.env"
 
         echo "Placeholders in .env have been updated."
