@@ -113,17 +113,26 @@ if [ -f "$DESTINATION_PATH/.env" ]; then
         read -p "Enter the value for USER_DB_NAME: " USERDBNAME
         read -p "Enter the value for MYSQL_USER: " MYSQLUSER
         read -p "Enter the value for DATABASE_PASSWORD: " MYSQLUSERPASSWORD
-        read -p "Enter the value for PUID: " PUID
-        read -p "Enter the value for PGID: " PGID
+        read -p "Enter the value for PUID: " PUIDENTRY
+        read -p "Enter the value for PGID: " PGIDENTRY
+
+        # Escape Sonderzeichen in den Variablen
+        ESCAPED_TIMEZONE=$(printf '%s' "$TIMEZONE" | sed 's/[\/&]/\\&/g')
+        ESCAPED_ROOTACCESSPASSWORD=$(printf '%s' "$ROOTACCESSPASSWORD" | sed 's/[\/&]/\\&/g')
+        ESCAPED_USERDBNAME=$(printf '%s' "$USERDBNAME" | sed 's/[\/&]/\\&/g')
+        ESCAPED_MYSQLUSER=$(printf '%s' "$MYSQLUSER" | sed 's/[\/&]/\\&/g')
+        ESCAPED_MYSQLUSERPASSWORD=$(printf '%s' "$MYSQLUSERPASSWORD" | sed 's/[\/&]/\\&/g')
+        ESCAPED_PUIDENTRY=$(printf '%s' "$PUIDENTRY" | sed 's/[\/&]/\\&/g')
+        ESCAPED_PGIDENTRY=$(printf '%s' "$PGIDENTRY" | sed 's/[\/&]/\\&/g')
 
         sed -i \
-            -e "s/TIME_ZONE/$TIMEZONE/g" \
-            -e "s/ROOT_ACCESS_PASSWORD/$ROOTACCESSPASSWORD/g" \
-            -e "s/USER_DB_NAME/$USERDBNAME/g" \
-            -e "s/MYSQL_USER/$MYSQLUSER/g" \
-            -e "s/DATABASE_PASSWORD/$MYSQLUSERPASSWORD/g" \
-            -e "s/PUID/$PUID/g" \
-            -e "s/PGID/$PGID/g" \
+            -e "s/TIME_ZONE/$ESCAPED_TIMEZONE/g" \
+            -e "s/ROOT_ACCESS_PASSWORD/$ESCAPED_ROOTACCESSPASSWORD/g" \
+            -e "s/USER_DB_NAME/$ESCAPED_USERDBNAME/g" \
+            -e "s/MYSQL_USER/$ESCAPED_MYSQLUSER/g" \
+            -e "s/DATABASE_PASSWORD/$ESCAPED_MYSQLUSERPASSWORD/g" \
+            -e "s/PUID/$ESCAPED_PUIDENTRY/g" \
+            -e "s/PGID/$ESCAPED_PGIDENTRY/g" \
             "$DESTINATION_PATH/.env"
 
         echo "Placeholders in .env have been updated."
