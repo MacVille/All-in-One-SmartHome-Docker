@@ -124,7 +124,6 @@ if [ -f "$DESTINATION_PATH/.env" ]; then
             -e "s/DATABASE_PASSWORD/$MYSQLUSERPASSWORD/g" \
             -e "s/PUID/$PUID/g" \
             -e "s/PGID/$PGID/g" \
-
             "$DESTINATION_PATH/.env"
 
         echo "Placeholders in .env have been updated."
