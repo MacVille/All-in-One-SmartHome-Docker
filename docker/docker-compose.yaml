@@ -2,7 +2,7 @@ services:
   homeassistant:
     image: lscr.io/linuxserver/homeassistant:latest
     container_name: homeassistant
-    network_mode: bridge
+    network_mode: host
     environment:
       - TZ=${TIME_ZONE}
       - PUID=${PUID}
