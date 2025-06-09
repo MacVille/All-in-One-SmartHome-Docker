@@ -413,7 +413,7 @@ networks:
 ### Full .env File Example
 [Here is the .env File Example:](/docker/.envexample)
 
-```txt
+```env
 TIME_ZONE=Europe/Berlin
 ROOT_ACCESS_PASSWORD=PA$$W0RD
 USER_DB_NAME=HomeAssistant
