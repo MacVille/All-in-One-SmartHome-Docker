@@ -23,13 +23,14 @@ chown -R 1000:1000 /home/docker/*
 ```
 ## Which Applications I'm using on my "All-In-One-SmartHome-Docker"
 
- [Home Assistant](#homeassistant)
- [ESPHome](#ESPHome)
- [Zigbee2MQTT](#Zigbee2MQTT)
- [mosquitto](#mosquitto)
- [Code Server](#codeserver)
- [MariaDB](#MariaDB)
- [phpMyAdmin](#phpMyAdmin)
+- [Home Assistant](#homeassistant)
+- [ESPHome](#ESPHome)
+- [Zigbee2MQTT](#Zigbee2MQTT)
+- [mosquitto](#mosquitto)
+- [Code Server](#codeserver)
+- [MariaDB](#MariaDB)
+- [phpMyAdmin](#phpMyAdmin)
+- [Full Compose File](#full-compose-file-example)
 
 ### Home Assistant
 
@@ -247,4 +248,149 @@ services:
     ports:
       - 8127:80
     restart: unless-stopped
+```
+
+### Full Compose File Example
+
+[Here is the Full Docker Compose Example:](docker/docker-compose.yaml)
+```yaml
+services:
+  homeassistant:
+    image: lscr.io/linuxserver/homeassistant:latest
+    container_name: homeassistant
+    network_mode: host
+    environment:
+      - TZ=${TIME_ZONE}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - ./homeassistant/config:/config
+    ports:
+      - 8123:8123
+    #devices:
+    #  - /path/to/device:/path/to/device #optional
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+    networks: []
+  esphome:
+    container_name: esphome
+    image: ghcr.io/esphome/esphome
+    network_mode: bridge
+    volumes:
+      - ./esphome/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    privileged: true
+    ports:
+      - 8124:6052
+    environment:
+      #- USERNAME=test
+      #- PASSWORD=ChangeMe
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      #zigbee2mqtt:
+      #  container_name: zigbee2mqtt
+      #  image: koenkk/zigbee2mqtt
+      #  restart: unless-stopped
+      #  network_mode: bridge
+      #  volumes:
+      #    - ./zigbe2mqtt/data:/app/data
+      #    - /run/udev:/run/udev:ro
+      #  ports:
+      #    - 8125:8080
+      #  environment:
+      #    - TZ=${TIME_ZONE}
+      #    - PUID=${PUID}
+      #    - PGID=${PGID}
+      #devices:
+      #Make sure this matched your adapter location
+      #- /dev/serial/by-id/usb-Texas_Instruments_TI_CC2531_USB_CDC___0X00124B0018ED3DDF-if00:/dev/ttyACM0
+    networks: []
+  eclipse-mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    volumes:
+      - ./mosquitto/log:/mosquitto/log
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/config:/mosquitto/config
+      #- ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    ports:
+      - 1883:1883
+      - 1884:1884
+      - 8883:8883
+      - 8884:8884
+      - 9001:9001
+    tty: true
+    stdin_open: true
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+    networks:
+      - smarthome
+      - smarthome-internal
+    restart: unless-stopped
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    environment:
+      - TZ=${TIME_ZONE}
+      - DEFAULT_WORKSPACE=/config/workspace #optional
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - ./code-server/config:/config
+      - ./homeassistant/config:/config/workspace/homeassistant
+      - ./mosquitto/config:/config/workspace/mosquitto
+      - ./zigbe2mqtt/data:/config/workspace/zigbe2mqtt
+      - ./esphome/config:/config/workspace/esphome
+    ports:
+      - 8126:8443
+    restart: unless-stopped
+    networks:
+      - smarthome
+      - smarthome-internal
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: mariadb
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - MYSQL_ROOT_PASSWORD=${ROOT_ACCESS_PASSWORD}
+      - MYSQL_DATABASE=${USER_DB_NAME}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - ./mariadb/config:/config
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+    networks:
+      - smarthome
+      - smarthome-internal
+  phpmyadmin:
+    image: lscr.io/linuxserver/phpmyadmin:latest
+    container_name: phpmyadmin
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - PMA_HOST=mariadb
+      - PMA_PORT=3306
+      #- PMA_ARBITRARY=1 #optional
+      #- PMA_ABSOLUTE_URI=https://phpmyadmin.example.com #optional
+    volumes:
+      - ./phpmyadmin/config:/config
+    ports:
+      - 8127:80
+    restart: unless-stopped
+    networks:
+      - smarthome
+      - smarthome-internal
+networks:
+  smarthome-internal: null
+  smarthome:
+    external: true
 ```
