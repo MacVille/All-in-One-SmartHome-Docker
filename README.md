@@ -14,7 +14,6 @@
     - [Full Compose File Example](#full-compose-file-example)
     - [Full .env File Example](#full-env-file-example)
 
-
 ## Requirements
 On your Docker Host you need to create an Group and User with the PUID and PGID 1000
 This is needed that the Containers can write Files from other Containers, like Code Server.
@@ -95,6 +94,7 @@ services:
     - PGID=${ID}
     - TZ=${TIME_ZONE}
 ```
+
 ### Zigbee2MQTT
 
 For Zigbee2MQTT i'm using the Docker Image from [Zigbee2MQTT](https://www.zigbee2mqtt.io/guide/installation/02_docker.html#rootless-container)
@@ -265,6 +265,7 @@ services:
 ```
 
 ## Examples
+
 ### Full Compose File Example
 
 [Here is the Full Docker Compose Example:](docker/docker-compose.yaml)
