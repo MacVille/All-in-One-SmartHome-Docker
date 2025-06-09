@@ -23,7 +23,7 @@ chown -R 1000:1000 /home/docker/*
 ```
 ## Which Applications I'm using on my "All-In-One-SmartHome-Docker"
 
-- [Home Assistant](###-Homeassistant)
+- [Home Assistant](###-homeassistant)
 - [ESPHome](###-ESPHome)
 - [Zigbee2MQTT](###-Zigbee2MQTT)
 - [mosquitto](###-mosquitto)
