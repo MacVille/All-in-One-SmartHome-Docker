@@ -290,23 +290,23 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      #zigbee2mqtt:
-      #  container_name: zigbee2mqtt
-      #  image: koenkk/zigbee2mqtt
-      #  restart: unless-stopped
-      #  network_mode: bridge
-      #  volumes:
-      #    - ./zigbe2mqtt/data:/app/data
-      #    - /run/udev:/run/udev:ro
-      #  ports:
-      #    - 8125:8080
-      #  environment:
-      #    - TZ=${TIME_ZONE}
-      #    - PUID=${PUID}
-      #    - PGID=${PGID}
-      #devices:
-      #Make sure this matched your adapter location
-      #- /dev/serial/by-id/usb-Texas_Instruments_TI_CC2531_USB_CDC___0X00124B0018ED3DDF-if00:/dev/ttyACM0
+    zigbee2mqtt:
+      container_name: zigbee2mqtt
+      image: koenkk/zigbee2mqtt
+      restart: unless-stopped
+      network_mode: bridge
+      volumes:
+        - ./zigbe2mqtt/data:/app/data
+        - /run/udev:/run/udev:ro
+      ports:
+        - 8125:8080
+      environment:
+        - TZ=${TIME_ZONE}
+        - PUID=${PUID}
+        - PGID=${PGID}
+    devices:
+    Make sure this matched your adapter location
+    - /dev/serial/by-id/usb-Texas_Instruments_TI_CC2531_USB_CDC___0X00124B0018ED3DDF-if00:/dev/ttyACM0
     networks: []
   eclipse-mosquitto:
     image: eclipse-mosquitto
