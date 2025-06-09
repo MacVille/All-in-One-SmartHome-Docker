@@ -1,5 +1,20 @@
 # All-in-One-SmartHome-Docker-Stack
 
+- [All-in-One-SmartHome-Docker-Stack](#all-in-one-smarthome-docker-stack)
+  - [Requirements](#requirements)
+  - [Which Applications I'm using on my "All-In-One-SmartHome-Docker"](#which-applications-im-using-on-my-all-in-one-smarthome-docker)
+    - [Home Assistant](#home-assistant)
+    - [ESPHome](#esphome)
+    - [Zigbee2MQTT](#zigbee2mqtt)
+    - [mosquitto](#mosquitto)
+    - [code-server](#code-server)
+    - [MariaDB](#mariadb)
+    - [phpMyAdmin](#phpmyadmin)
+  - [Examples](#examples)
+    - [Full Compose File Example](#full-compose-file-example)
+    - [Full .env File Example](#full-env-file-example)
+
+
 ## Requirements
 On your Docker Host you need to create an Group and User with the PUID and PGID 1000
 This is needed that the Containers can write Files from other Containers, like Code Server.
@@ -30,7 +45,6 @@ chown -R 1000:1000 /home/docker/*
 - [Code Server](#codeserver)
 - [MariaDB](#MariaDB)
 - [phpMyAdmin](#phpMyAdmin)
-- [Full Compose File](#full-compose-file-example)
 
 ### Home Assistant
 
@@ -250,6 +264,7 @@ services:
     restart: unless-stopped
 ```
 
+## Examples
 ### Full Compose File Example
 
 [Here is the Full Docker Compose Example:](docker/docker-compose.yaml)
@@ -290,24 +305,24 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-    zigbee2mqtt:
-      container_name: zigbee2mqtt
-      image: koenkk/zigbee2mqtt
-      restart: unless-stopped
-      network_mode: bridge
-      volumes:
-        - ./zigbe2mqtt/data:/app/data
-        - /run/udev:/run/udev:ro
-      ports:
-        - 8125:8080
-      environment:
-        - TZ=${TIME_ZONE}
-        - PUID=${PUID}
-        - PGID=${PGID}
-    devices:
-    Make sure this matched your adapter location
-    - /dev/serial/by-id/usb-Texas_Instruments_TI_CC2531_USB_CDC___0X00124B0018ED3DDF-if00:/dev/ttyACM0
-    networks: []
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    restart: unless-stopped
+    network_mode: bridge
+    volumes:
+      - ./zigbe2mqtt/data:/app/data
+      - /run/udev:/run/udev:ro
+    ports:
+      - 8125:8080
+    environment:
+      - TZ=${TIME_ZONE}
+      - PUID=${PUID}
+      - PGID=${PGID}
+  devices:
+  #Make sure this matched your adapter location
+  - /dev/serial/by-id/usb-Texas_Instruments_TI_CC2531_USB_CDC___0X00124B0018ED3DDF-if00:/dev/ttyACM0
+  networks: []
   eclipse-mosquitto:
     image: eclipse-mosquitto
     container_name: mosquitto
@@ -393,4 +408,17 @@ networks:
   smarthome-internal: null
   smarthome:
     external: true
+```
+
+### Full .env File Example
+[Here is the .env File Example:](/docker/.envexample)
+
+```txt
+TIME_ZONE=Europe/Berlin
+ROOT_ACCESS_PASSWORD=PA$$W0RD
+USER_DB_NAME=HomeAssistant
+MYSQL_USER=homeassistant
+DATABASE_PASSWORD=PA$$W0RD
+PUID=1000
+PGID=1000
 ```
