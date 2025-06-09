@@ -23,13 +23,13 @@ chown -R 1000:1000 /home/docker/*
 ```
 ## Which Applications I'm using on my "All-In-One-SmartHome-Docker"
 
-- [Home Assistant](#-homeassistant)
-- [ESPHome](#-ESPHome)
-- [Zigbee2MQTT](#-Zigbee2MQTT)
-- [mosquitto](#-mosquitto)
-- [Code Server](#-code-server)
-- [MariaDB](#-MariaDB)
-- [phpMyAdmin](#-phpMyAdmin)
+ [Home Assistant](#homeassistant)
+ [ESPHome](#ESPHome)
+ [Zigbee2MQTT](#Zigbee2MQTT)
+ [mosquitto](#mosquitto)
+ [Code Server](#codeserver)
+ [MariaDB](#MariaDB)
+ [phpMyAdmin](#phpMyAdmin)
 
 ### Home Assistant
 
