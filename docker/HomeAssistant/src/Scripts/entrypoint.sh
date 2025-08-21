@@ -22,9 +22,9 @@ if ! grep -q "INITIALIZED" "$CONFIG_FILE"; then
     #echo "# INITIALIZED" >> "$CONFIG_FILE"
 fi
 
-touch /config/automations.yaml
-touch /config/scripts.yaml
-touch /config/scenes.yaml
+#touch /config/automations.yaml
+#touch /config/scripts.yaml
+#touch /config/scenes.yaml
 
 # Zum Schluss den originalen Startbefehl ausführen
 exec "$@"
