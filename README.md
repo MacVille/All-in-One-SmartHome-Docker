@@ -64,6 +64,8 @@ services:
       - /home/docker/smarthome/homeassistant/config:/config
     ports:
       - '8123:8123'
+    depends_on:
+      - mariadb
     #devices:
     #  - /path/to/device:/path/to/device #optional
     restart: unless-stopped
